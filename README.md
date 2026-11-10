@@ -32,9 +32,9 @@ npm run test:e2e
 npm audit
 ```
 
-API tests create and remove their own temporary database. Browser tests use `/tmp/roleproof-e2e.sqlite3`, separate from the normal database. Remove that test database before a clean rerun if necessary. Browser tests require the normal server to be stopped so port 8765 is available. Tests are local executions, not a claim that hosted CI has run.
+API tests create and remove their own temporary database. Browser tests start a wrapper that creates a unique temporary directory and database for that run, then cleans it on normal or termination-signal shutdown. No existing database is deleted. A hard kill can leave a disposable temporary directory; it never overwrites the normal demo database. Browser tests require the normal server to be stopped so port 8765 is available. Tests are local executions, not a claim that hosted CI has run.
 
-Verified on the initial reviewed revision: production build and TypeScript pass; 12 API integration tests pass; 4 Chromium browser tests pass; dependency audit reports zero known vulnerabilities. The recorded output files in this repo show the actual checks. The initial dependency audit found Vite advisories; Vite was upgraded to 7.3.8 and the build/tests/audit rerun. An initial exact-label browser test failed, was fixed with explicit accessible select labels, and passed on rerun. Zero known dependency advisories is not a complete security audit.
+Verified on the initial reviewed revision: production build and TypeScript pass; 13 API integration tests pass; 5 Chromium browser tests pass; dependency audit reports zero known vulnerabilities. The recorded output files in this repo show the actual checks. The initial dependency audit found Vite advisories; Vite was upgraded to 7.3.8 and the build/tests/audit rerun. An initial exact-label browser test failed, was fixed with explicit accessible select labels, and passed on rerun. Zero known dependency advisories is not a complete security audit.
 
 ## What the project demonstrates
 
@@ -47,13 +47,13 @@ Verified on the initial reviewed revision: production build and TypeScript pass;
 
 ## Architecture
 
-`main.tsx` is the React frontend; `style.css` provides the responsive layout. `server.py` serves the compiled `dist/` assets and `/api/health`, `/api/tickets`, `/api/tickets/:id`. `test_api.py` exercises the API with a real server and temporary SQLite database. `desk.spec.ts` drives Chromium through the actual built app. `package-lock.json` pins the dependency graph. Flat source layout keeps the small demonstration easy to inspect.
+`main.tsx` is the React frontend; `style.css` provides the responsive layout. `server.py` serves the compiled `dist/` assets and `/api/health`, `/api/tickets`, `/api/tickets/:id`. `test_api.py` exercises the API with a real server and temporary SQLite database. `e2e_server.py` gives each browser run its own temporary database. `desk.spec.ts` drives Chromium through the actual built app. `package-lock.json` pins the dependency graph. Flat source layout keeps the small demonstration easy to inspect.
 
 ## Security and deployment limits
 
 **This backend is intentionally loopback-only and has no login, authorization, rate limiting, TLS termination or multi-user isolation. It is not internet-hosting-ready.** Do not change the bind address to a public interface, use real data, proxy the write API onto the internet or claim production/SaaS readiness without adding those controls and reviewing them. The CSP/custom header/origin checks are defense in depth, not substitutes for authentication. No live penetration test or independent security audit has been performed.
 
-`.env.example` contains only optional non-secret configuration defaults. Python reads environment variables directly; it does not auto-load `.env`. No credential is needed. Do not put secrets into frontend variables: compiled browser code is public. `.gitignore` excludes local databases, actual env files, dependencies, compiled assets and browser artifacts. Public source availability is not a public backend deployment. No hosted backend or GitHub Pages deployment is claimed.
+`.env.example` contains only optional non-secret configuration defaults. Python reads environment variables directly; it does not auto-load `.env`. Relative ROLEPROOF_DB paths resolve from the project directory, independent of the shell working directory. No credential is needed. Do not put secrets into frontend variables: compiled browser code is public. `.gitignore` excludes local databases, actual env files, dependencies, compiled assets and browser artifacts. Public source availability is not a public backend deployment. No hosted backend or GitHub Pages deployment is claimed.
 
 ## Provenance and honest application use
 
