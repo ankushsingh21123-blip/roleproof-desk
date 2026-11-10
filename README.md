@@ -2,7 +2,13 @@
 
 A focused support-operations portfolio demo: create fictional tickets, search and filter the queue, update status, and persist changes to SQLite. Responsive React + TypeScript frontend with a Python standard-library API and real database writes. No external API, model key, paid service or account is required.
 
-![Desktop preview](preview-desktop.png)
+![Desktop preview](12-preview-desktop.png)
+
+<details><summary>Mobile preview</summary>
+
+![Mobile preview](13-preview-mobile.png)
+
+</details>
 
 ## Run locally
 
