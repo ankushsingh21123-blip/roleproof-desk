@@ -43,6 +43,9 @@ class API(unittest.TestCase):
   self.assertEqual(self.req('/api/tickets','POST',raw=b'{broken')[0],400);self.assertEqual(self.req('/api/tickets','POST',raw=b'x'*9000)[0],400)
  def test_sql_metacharacters_are_data(self):
   t=self.create(title="Sample '; DROP TABLE tickets; --");self.assertIn('DROP TABLE',t['title']);self.assertEqual(self.req('/api/tickets')[0],200)
+ def test_unsupported_methods_are_json(self):
+  for method in ['PUT','DELETE','OPTIONS']:
+   status,b,h=self.req('/api/tickets',method,{});self.assertEqual(status,405);self.assertIn('application/json',h['Content-Type']);self.assertEqual(json.loads(b)['error'],'Method not allowed.')
  def test_security_headers_and_no_secret_paths(self):
   _,_,h=self.req('/');self.assertEqual(h['X-Content-Type-Options'],'nosniff');self.assertIn("frame-ancestors 'none'",h['Content-Security-Policy'])
   for p in ['/.env','/server.py','/roleproof.sqlite3','/../server.py','/api/unknown']:self.assertEqual(self.req(p)[0],404)
