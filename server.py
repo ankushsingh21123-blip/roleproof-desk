@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 ROOT=Path(__file__).resolve().parent
 DB=Path(os.environ.get('ROLEPROOF_DB',str(ROOT/'roleproof.sqlite3')))
+if not DB.is_absolute(): DB=ROOT/DB
 PORT=int(os.environ.get('ROLEPROOF_PORT','8765'))
 STATUSES={'Open','In progress','Resolved'}
 CATEGORIES={'Account','Billing','Product','Other'}
@@ -87,7 +88,11 @@ class Handler(SimpleHTTPRequestHandler):
     if cur.rowcount==0:self.reply(409,{'error':'This ticket changed. Refresh before updating.'});return
    self.reply(200,{'ticket':dict(row)})
   except ValueError as e:self.reply(400,{'error':str(e)})
- def do_OPTIONS(self):self.reply(405,{'error':'Cross-origin access is not supported.'})
+ def unsupported(self):
+  if self.gate():self.reply(405,{'error':'Method not allowed.'})
+ do_OPTIONS=unsupported
+ do_PUT=unsupported
+ do_DELETE=unsupported
 if __name__=='__main__':
  if not (ROOT/'dist'/'index.html').is_file():raise SystemExit('Build the frontend first: npm ci && npm run build')
  initialize(); server=ThreadingHTTPServer(('127.0.0.1',PORT),Handler);server.daemon_threads=True
