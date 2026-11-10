@@ -1,0 +1,7 @@
+PASS create/reload/status/filter/reset persistence
+PASS reset only own key
+PASS separate browser-context isolation
+PASS 320/390/1280 no overflow
+PASS invalid storage safe fallback
+PASS user strings rendered as text
+PASS no page errors or API/third-party requests; CSP connect-src none
