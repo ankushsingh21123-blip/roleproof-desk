@@ -35,3 +35,15 @@ test('HTML-looking ticket title is rendered as text, not markup',async({page})=>
  await expect(page.getByRole('heading',{name:'<img src=x onerror=alert(1)>'})).toBeVisible();
  await expect(page.locator('.dialog img')).toHaveCount(0);
 });
+
+test('busy save cannot dismiss modal and backdrop locks document scroll',async({page})=>{
+ await page.goto('/');await page.getByRole('button',{name:'+ New ticket'}).click();
+ await expect(page.locator('body')).toHaveCSS('overflow','hidden');
+ await page.getByLabel('Title',{exact:true}).fill('Synthetic busy save');await page.getByLabel('Description',{exact:true}).fill('Fictional delayed request for keyboard regression.');
+ let release:()=>void=()=>{};const barrier=new Promise<void>(r=>release=r);
+ await page.route('**/api/tickets',async route=>{if(route.request().method()==='POST'){await barrier;}await route.continue();});
+ await page.getByRole('button',{name:'Create ticket',exact:true}).click();await expect(page.getByRole('button',{name:'Saving…'})).toBeDisabled();
+ await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toBeVisible();await expect(page.getByRole('button',{name:'Close form'})).toBeDisabled();release();
+ await expect(page.getByRole('heading',{name:'Synthetic busy save'})).toBeVisible();
+ await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.locator('body')).not.toHaveCSS('overflow','hidden');
+});
