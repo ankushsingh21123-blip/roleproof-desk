@@ -1,5 +1,8 @@
 # RoleProof Desk
 
+> Deployment work in progress: the Workers + D1 variant now has local integration/browser checks. No public full-stack deployment is verified yet. See [WORKER_DEPLOYMENT.md](WORKER_DEPLOYMENT.md). The Python backend below remains local-only; GitHub Pages remains a separate browser-only sandbox.
+
+
 A focused support-operations portfolio demo: create fictional tickets, search and filter the queue, update status, and persist changes to SQLite. Responsive React + TypeScript frontend with a Python standard-library API and real database writes. No external API, model key, paid service or account is required.
 
 ![Desktop preview](12-preview-desktop.png)

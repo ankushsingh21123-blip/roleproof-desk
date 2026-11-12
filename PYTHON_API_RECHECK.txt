@@ -1,0 +1,18 @@
+test_create_persistence (test_api.API) ... ok
+test_health (test_api.API) ... ok
+test_invalid_fields (test_api.API) ... ok
+test_invalid_patch (test_api.API) ... ok
+test_malformed_and_oversized (test_api.API) ... ok
+test_missing_client_header (test_api.API) ... ok
+test_missing_ticket (test_api.API) ... ok
+test_origin_and_host_rejection (test_api.API) ... ok
+test_security_headers_and_no_secret_paths (test_api.API) ... ok
+test_seeded_list (test_api.API) ... ok
+test_sql_metacharacters_are_data (test_api.API) ... ok
+test_status_and_stale_write (test_api.API) ... ok
+test_unsupported_methods_are_json (test_api.API) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.078s
+
+OK

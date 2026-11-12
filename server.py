@@ -60,6 +60,7 @@ class Handler(SimpleHTTPRequestHandler):
   else:self.reply(404,{'error':'Not found.'})
  def do_POST(self):
   if not self.gate():return
+  if urlparse(self.path).path=='/api/session':self.reply(200,{'mode':'local-synthetic-demo'});return
   if urlparse(self.path).path!='/api/tickets':self.reply(404,{'error':'Route not found.'});return
   try:
    v=self.body()

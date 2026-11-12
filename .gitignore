@@ -11,3 +11,7 @@ playwright-report/
 .venv/
 evidence/
 *.tsbuildinfo
+
+.wrangler/
+.dev.vars
+worker-runtime.log

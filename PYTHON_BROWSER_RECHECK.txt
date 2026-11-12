@@ -1,0 +1,10 @@
+
+Running 5 tests using 1 worker
+
+  ✓  1 desk.spec.ts:2:1 › create, persist, search, update and filter a ticket (463ms)
+  ✓  2 desk.spec.ts:21:1 › responsive queue has no horizontal overflow at 320,390,1280 (332ms)
+  ✓  3 desk.spec.ts:24:1 › modal keyboard focus stays inside and Escape closes (156ms)
+  ✓  4 desk.spec.ts:30:1 › HTML-looking ticket title is rendered as text, not markup (293ms)
+  ✓  5 desk.spec.ts:39:1 › busy save cannot dismiss modal and backdrop locks document scroll (332ms)
+
+  5 passed (2.3s)
