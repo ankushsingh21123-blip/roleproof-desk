@@ -4,7 +4,7 @@ This branch adds a Vercel Node API and isolated Supabase PostgreSQL database. It
 
 ## Status
 
-Implementation and local PostgreSQL/HTTP tests passed. Live deployment and live acceptance remain pending. Do not use this document as evidence of a finished hosted app until a dated live result is added.
+Live demo: https://roleproof-desk.vercel.app/ . On November13,2026 at01:44IST, remote acceptance passed actual bound PostgreSQL health, UI create/API read, update/reload persistence, Secure HttpOnly SameSiteStrict cookie, stale409, second-workspace isolation404 and no horizontal overflow at320/390/1280. Desktop/mobile screenshots were visually inspected. This is a point-in-time test, not an uptime or production-security guarantee. See LIVE_POSTGRES_RESULTS.json and verify-postgres-deployed.mjs.
 
 ## Design
 
