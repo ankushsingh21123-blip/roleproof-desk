@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-12T20:14:28.232Z",
+  "origin": "https://roleproof-desk.vercel.app",
+  "health": {
+    "mode": "hosted-isolated-demo",
+    "status": "ok",
+    "database": "Supabase PostgreSQL",
+    "retention_days": 7
+  },
+  "checks": [
+    "bound PostgreSQL read",
+    "UI create/API read",
+    "update/reload persistence",
+    "Secure HttpOnly SameSite cookie",
+    "stale update 409",
+    "second-workspace isolation",
+    "foreign update 404",
+    "320/390/1280 overflow",
+    "no page errors"
+  ],
+  "limits": "Anonymous synthetic-data demo; not a production security audit. Workspace expires in seven days; lazy cleanup on a later new-session request."
+}
