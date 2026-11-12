@@ -1,0 +1,13 @@
+{
+  "api/desk.mjs": "872026fd6e625498dd8d8f3d9dbd7e792feeee906b208055e0e7f5cf7f8a827e",
+  "schema.postgres.sql": "263a5b24df66eceda022fbd1557ea36967018bfed0b256ef159b0e6650f3a03f",
+  "vercel.json": "280d3617125a3deb102ef2ec93776764157dc129531f73e5614cfc5147b3be7a",
+  "main.tsx": "b39ed5540ec0128fdddc6cf109b899f3947d25bd798ab53257fcd714ad4270ef",
+  "package.json": "d66e6d41c084602b4b187b9aab528546879333ce4ceb789654da3427432e8a23",
+  "package-lock.json": "8c9ee847df4a99a939d3b028974d8f8c5d0f571eeae82b7735b60e54b1482cb9",
+  "tests/postgres.mjs": "942b946ea9c7e49fad7831525c4ec6fc792c403d0f84221a67ec2510db618261",
+  "tests/postgres-http.mjs": "31352f23681cdc94c67b8eac4c887f2720cb256cf120d8fa76a596cb22e696bf",
+  ".github/workflows/ci.yml": "cd4287c397f7651274b54d3bce58438fdcd698771323be33aa8cf63f9726aec9",
+  "VERCEL_DEPLOYMENT.md": "fd4fda6eb3ef06bcadad8aa2e5d414a901ae602cb4c87bda968008feedfc60b6",
+  "POSTGRES_LOCAL_TEST_RESULTS.txt": "155768382ead057cfe618b1caeec361ee3cf0a38a60c1bdd962c8bf5f3b9b6ac"
+}

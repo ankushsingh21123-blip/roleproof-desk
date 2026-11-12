@@ -10,13 +10,15 @@
     "test:api": "python3 -m unittest test_api -v",
     "test:worker": "python3 test_worker.py",
     "test:e2e:worker": "playwright test --config playwright.worker.config.ts",
-    "dev:worker": "wrangler dev --port 8787 --ip 127.0.0.1"
+    "dev:worker": "wrangler dev --port 8787 --ip 127.0.0.1",
+    "test:postgres": "node tests/postgres.mjs && node tests/postgres-http.mjs"
   },
   "dependencies": {
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.3.14",
     "@playwright/test": "1.56.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",

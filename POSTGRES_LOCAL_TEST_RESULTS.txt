@@ -1,0 +1,6 @@
+
+> roleproof-desk@0.1.0 test:postgres
+> node tests/postgres.mjs && node tests/postgres-http.mjs
+
+PASS: real PostgreSQL WASM schema, health, session, seed, create, update, stale409, isolation404, malformed payloads, rate429, anon table-denial and allowed narrow RPC.
+PASS: HTTP + PostgreSQL integration,12checks covering sessions, cookies, create/update/reload persistence, stale409, second-workspace404, CSRF403, input400 and Vercel rewritten route.

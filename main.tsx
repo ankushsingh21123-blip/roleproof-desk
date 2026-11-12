@@ -63,7 +63,7 @@ function TicketRow({
     </button>
   );
 }
-let sessionInitialization: Promise<{ mode: string }> | null = null;
+let sessionInitialization: Promise<{ mode: string; storage?: string }> | null = null;
 function App() {
   const [tickets, setTickets] = useState<Ticket[]>([]),
     [filter, setFilter] = useState("All"),
@@ -74,7 +74,8 @@ function App() {
     [busy, setBusy] = useState(false),
     [form, setForm] = useState(false),
     [notice, setNotice] = useState(""),
-    [hosted, setHosted] = useState(false);
+    [hosted, setHosted] = useState(false),
+    [storage, setStorage] = useState("database");
   async function load() {
     try {
       setTickets((await api("/tickets")).tickets);
@@ -92,6 +93,7 @@ function App() {
           body: "{}",
         }));
         setHosted(s.mode === "hosted-isolated-demo");
+        setStorage(s.storage || "database");
         await load();
       } catch (e) {
         setError((e as Error).message);
@@ -161,7 +163,7 @@ function App() {
         body: JSON.stringify({ status, version: t.version }),
       });
       await load();
-      setNotice("Status saved to SQLite.");
+      setNotice("Status saved to database.");
     } catch (e) {
       const message = (e as Error).message;
       await load();
@@ -329,7 +331,7 @@ function App() {
         <footer>
           <span className="dot" />
           {hosted
-            ? "Live full-stack demo · React / Worker API / D1 SQLite"
+            ? `Live full-stack demo · React / API / ${storage}`
             : "Local demo · React + TypeScript / Python / SQLite"}
           <span>AI-assisted portfolio project</span>
         </footer>
