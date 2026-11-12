@@ -1,8 +1,11 @@
 name: CI
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -10,4 +13,9 @@ jobs:
           node-version: 22
       - run: npm ci --ignore-scripts
       - run: npm run build
-      - run: python3 -m unittest test_api -v
+      - run: npm audit --audit-level=low
+      - run: npm run test:api
+      - run: npm run test:worker
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - run: npm run test:e2e:worker
