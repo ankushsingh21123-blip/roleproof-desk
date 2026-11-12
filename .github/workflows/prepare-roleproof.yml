@@ -1,0 +1,79 @@
+name: Prepare reviewed RoleProof Worker source
+on:
+  push:
+    branches: [deploy-worker-d1]
+    paths: [.github/workflows/prepare-roleproof.yml]
+permissions:
+  contents: write
+jobs:
+  source:
+    if: github.repository == 'ankushsingh21123-blip/roleproof-desk' && github.ref == 'refs/heads/deploy-worker-d1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate exact base and reviewed public source
+        run: |
+          python3 - <<'PY'
+          import base64,gzip,hashlib,json
+          from pathlib import Path
+          paths=['.rp-payload-1.txt', '.rp-payload-2.txt', '.rp-payload-3.txt', '.rp-payload-4.txt', '.rp-payload-5.txt', '.rp-payload-6.txt']
+          encoded=''.join(Path(p).read_text().strip() for p in paths)
+          data=gzip.decompress(base64.b64decode(encoded,validate=True))
+          assert hashlib.sha256(data).hexdigest()=='c39f6d1f8e46dac14b82673cc5e71ec056b84fa468905e60de9bf471b31a2a9b','payload hash mismatch'
+          files=json.loads(data)
+          assert sorted(files)==['.github/workflows/ci.yml', '.gitignore', 'PYTHON_API_RECHECK.txt', 'PYTHON_BROWSER_RECHECK.txt', 'README.md', 'WORKER_API_TEST_RESULTS.txt', 'WORKER_BROWSER_TEST_RESULTS.txt', 'WORKER_DEPENDENCY_AUDIT.json', 'WORKER_DEPLOYMENT.md', 'main.tsx', 'package-lock.json', 'package.json', 'playwright.worker.config.ts', 'schema.sql', 'server.py', 'test_worker.py', 'worker.mjs', 'wrangler.jsonc'],'unexpected file set'
+          for name,item in files.items():
+           p=Path(name)
+           assert not p.is_absolute() and '..' not in p.parts
+           expected=item['before_sha256']
+           if expected is None:assert not p.exists(),f'unexpected pre-existing file: {name}'
+           else:assert hashlib.sha256(p.read_bytes()).hexdigest()==expected,f'base source changed: {name}'
+           content=item['content'].encode()
+           assert hashlib.sha256(content).hexdigest()==item['sha256'],name
+          for name,item in files.items():
+           if name=='.github/workflows/ci.yml':continue
+           p=Path(name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(item['content'].encode())
+          print('Validated source payload; CI workflow retained for normal UI update')
+          PY
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: npm audit --audit-level=low
+      - run: npm run test:api
+      - run: npm run test:worker
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - run: npm run test:e2e:worker
+      - name: Commit only verified source on the preparation branch
+        run: |
+          test "$(git branch --show-current)" = deploy-worker-d1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '.gitignore'
+          git add -- 'main.tsx'
+          git add -- 'package.json'
+          git add -- 'package-lock.json'
+          git add -- 'server.py'
+          git add -- 'worker.mjs'
+          git add -- 'schema.sql'
+          git add -- 'wrangler.jsonc'
+          git add -- 'playwright.worker.config.ts'
+          git add -- 'test_worker.py'
+          git add -- 'WORKER_API_TEST_RESULTS.txt'
+          git add -- 'WORKER_BROWSER_TEST_RESULTS.txt'
+          git add -- 'WORKER_DEPENDENCY_AUDIT.json'
+          git add -- 'PYTHON_API_RECHECK.txt'
+          git add -- 'PYTHON_BROWSER_RECHECK.txt'
+          git add -- 'WORKER_DEPLOYMENT.md'
+          git add -- 'README.md'
+          git rm -- '.rp-payload-1.txt'
+          git rm -- '.rp-payload-2.txt'
+          git rm -- '.rp-payload-3.txt'
+          git rm -- '.rp-payload-4.txt'
+          git rm -- '.rp-payload-5.txt'
+          git rm -- '.rp-payload-6.txt'
+          git commit -m 'Add tested isolated Worker and D1 variant; deployment still pending'
+          git push origin HEAD:deploy-worker-d1
