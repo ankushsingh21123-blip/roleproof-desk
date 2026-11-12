@@ -14,6 +14,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build
       - run: npm audit --audit-level=low
+      - run: npm run test:postgres
       - run: npm run test:api
       - run: npm run test:worker
       - run: npx playwright install --with-deps chromium
