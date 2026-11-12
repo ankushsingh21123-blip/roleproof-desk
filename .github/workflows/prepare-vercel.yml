@@ -30,6 +30,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add api schema.postgres.sql vercel.json main.tsx package.json package-lock.json tests .github/workflows/ci.yml VERCEL_DEPLOYMENT.md POSTGRES_LOCAL_TEST_RESULTS.txt vercel-source-manifest.json
+          git add api schema.postgres.sql vercel.json main.tsx package.json package-lock.json tests VERCEL_DEPLOYMENT.md POSTGRES_LOCAL_TEST_RESULTS.txt vercel-source-manifest.json
           git commit -m 'Add AI-assisted Vercel Postgres variant with real PostgreSQL tests'
           git push origin HEAD:deploy-vercel-postgres
