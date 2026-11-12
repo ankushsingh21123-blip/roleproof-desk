@@ -10,7 +10,7 @@ test('create, persist, search, update and filter a ticket',async({page})=>{
  await page.getByRole('button',{name:'Create ticket',exact:true}).click();
  await expect(page.getByRole('dialog')).toBeVisible();
  await page.getByLabel('Update status').selectOption('In progress');
- await expect(page.getByText('Status saved to SQLite.')).toBeAttached();
+ await expect(page.getByText('Status saved to database.')).toBeAttached();
  await page.getByRole('button',{name:'Back to queue'}).click();
  await page.reload();await page.getByLabel('Search requests').fill('Synthetic keyboard test');
  await expect(page.getByRole('button',{name:/Synthetic keyboard test/})).toHaveCount(1);
