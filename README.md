@@ -1,3 +1,12 @@
+# RoleProof Desk - Next.js proof branch
+
+AI-assisted portfolio variant, not an employer assessment and not proof of independent authorship.
+This branch migrates the existing React queue to Next.js 16 Pages Router with a Node API and the same scoped PostgreSQL RPC contract. The existing deploy-vercel-postgres production branch is unchanged.
+
+Current status (16 November 2026): production build passes; five real-browser tests pass against the built Next server and PGlite PostgreSQL fixture using the real SQL/RPC and API handler. Those are LOCAL tests, not hosted Supabase verification. No React Native app is implemented. Live deployment verification is pending. Historical evidence elsewhere in this branch describes older variants, not this Next migration.
+
+Run `npm ci`, `npm run build`, then `npx playwright test --config playwright.next.config.ts`. The test preload only intercepts the fictional localtest.supabase.co RPC in the test process. Never configure it in a deployment. Hosted configuration uses the existing narrow public-key Supabase RPC. Never put admin keys or private information in this demo.
+
 # RoleProof Desk
 
 AI-assisted synthetic portfolio demo of a support-request queue.
