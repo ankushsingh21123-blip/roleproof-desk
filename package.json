@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node prepare-next.mjs && next dev --hostname 127.0.0.1",
-    "build": "node prepare-next.mjs && next build",
+    "build": "node prepare-next.mjs && next build && npm run build:legacy",
+    "build:legacy": "vite build",
     "test:e2e": "playwright test",
     "test:api": "python3 -m unittest test_api -v",
     "test:worker": "python3 test_worker.py",

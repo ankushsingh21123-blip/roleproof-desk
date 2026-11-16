@@ -95,7 +95,7 @@ class Handler(SimpleHTTPRequestHandler):
  do_PUT=unsupported
  do_DELETE=unsupported
 if __name__=='__main__':
- if not (ROOT/'dist'/'index.html').is_file():raise SystemExit('Build the frontend first: npm ci && npm run build')
+ if not (ROOT/'dist'/'index.html').is_file():raise SystemExit('Build the legacy frontend first: npm ci && npm run build:legacy')
  initialize(); server=ThreadingHTTPServer(('127.0.0.1',PORT),Handler);server.daemon_threads=True
  print(f'RoleProof Desk local demo: http://127.0.0.1:{PORT}',flush=True)
  try:server.serve_forever()
