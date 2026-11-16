@@ -1,11 +1,14 @@
 # RoleProof Desk - Next.js proof branch
 
-AI-assisted portfolio variant, not an employer assessment and not proof of independent authorship.
-This branch migrates the existing React queue to Next.js 16 Pages Router with a Node API and the same scoped PostgreSQL RPC contract. The existing deploy-vercel-postgres production branch is unchanged.
+AI-assisted portfolio variant, not an employer assessment and not proof of independent authorship. No React Native app is implemented.
 
-Current status (16 November 2026): production build passes; five real-browser tests pass against the built Next server and PGlite PostgreSQL fixture using the real SQL/RPC and API handler. Those are LOCAL tests, not hosted Supabase verification. No React Native app is implemented. Live deployment verification is pending. Historical evidence elsewhere in this branch describes older variants, not this Next migration.
+**Next.js demo:** https://roleproof-next.vercel.app/
 
-Run `npm ci`, `npm run build`, then `npx playwright test --config playwright.next.config.ts`. The test preload only intercepts the fictional localtest.supabase.co RPC in the test process. Never configure it in a deployment. Hosted configuration uses the existing narrow public-key Supabase RPC. Never put admin keys or private information in this demo.
+Current verification (16 November 2026, 18:53 IST): anonymous access without Vercel login; hosted create/update/reload/search/filter passed against the actual SQL-backed service. Five Playwright browser tests passed, including keyboard focus, safe HTML-as-text rendering and 320/390/1280 no-overflow checks. Hosted mobile and desktop screenshots were visually inspected. Tests wait for initial workspace loading before interacting.
+
+Architecture: Next.js 16 Pages Router frontend plus same-origin Next server API. With SUPABASE_URL configured, the API uses the original narrow PostgreSQL handler directly. Otherwise, this isolated deployment proxies only approved ticket/session/health routes to the existing portfolio API at https://roleproof-desk.vercel.app/ . The upstream runs Node and Supabase PostgreSQL with separate anonymous browser workspaces. This reuses the existing database, not a new independent database. No credentials were copied. Original deploy-vercel-postgres production is unchanged.
+
+Local verification: `npm ci`, `npm run build`, `npx playwright test --config playwright.next.config.ts`. Real PostgreSQL/PGlite SQL fixture and handler are used locally; local results are not hosted verification. Never configure the test preload in a deployment. Historical evidence below describes older variants, not this Next migration. Synthetic data only; seven-day retention and free-tier caps apply.
 
 # RoleProof Desk
 
