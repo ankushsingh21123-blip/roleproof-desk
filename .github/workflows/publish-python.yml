@@ -1,6 +1,9 @@
 name: Publish tested Python portfolio variant
 on:
   workflow_dispatch:
+  push:
+    branches: [proof-python-postgres]
+    paths: [.github/workflows/publish-python.yml]
 permissions:
   contents: write
 jobs:
