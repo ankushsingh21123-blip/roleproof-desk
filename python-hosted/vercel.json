@@ -1,0 +1,1 @@
+{"framework":"flask","functions":{"app.py":{"excludeFiles":"{test_*.py,local_test_server.py,*.mjs,*.ts,README.md,__pycache__/**}"}}}

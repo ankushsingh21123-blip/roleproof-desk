@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'..',testMatch:'desk.spec.ts',workers:1,use:{baseURL:'http://127.0.0.1:8796',headless:true},webServer:{command:'cd python-hosted && /tmp/rp-python-venv/bin/python local_test_server.py',cwd:'..',url:'http://127.0.0.1:8796/api/health',reuseExistingServer:false,gracefulShutdown:{signal:'SIGTERM',timeout:5000}},reporter:[['list']]});
