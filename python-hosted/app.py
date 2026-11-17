@@ -13,6 +13,8 @@ from urllib.request import Request, urlopen
 from flask import Flask, request, jsonify, make_response
 
 app = Flask(__name__)
+from analytics import analytics
+app.register_blueprint(analytics)
 app.config['MAX_CONTENT_LENGTH'] = 8192
 COOKIE = 'rp_python_session'
 SECURITY = {
