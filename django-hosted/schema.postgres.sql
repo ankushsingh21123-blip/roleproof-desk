@@ -44,7 +44,7 @@ BEGIN
   DELETE FROM roleproof_private.sessions WHERE expires_at<=stamp;
   SELECT * INTO s FROM roleproof_private.sessions WHERE id=token_hash AND expires_at>stamp;
   IF FOUND THEN RETURN jsonb_build_object('status',200,'body',jsonb_build_object('mode','hosted-isolated-demo','storage','Supabase PostgreSQL','expires_at',s.expires_at)); END IF;
-  IF (SELECT count(*) FROM roleproof_private.sessions)>=100 THEN
+  IF (SELECT count(*) FROM roleproof_private.sessions)>=500 THEN
    RETURN jsonb_build_object('status',503,'body',jsonb_build_object('error','The free demo is at capacity. Try after sessions expire.'));
   END IF;
   INSERT INTO roleproof_private.sessions(id,expires_at) VALUES(token_hash,stamp+604800);
