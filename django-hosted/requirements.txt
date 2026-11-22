@@ -1,0 +1,4 @@
+Django==5.2.19
+asgiref==3.12.1
+sqlparse==0.6.1
+typing_extensions==4.16.0
