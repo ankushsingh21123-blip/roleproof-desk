@@ -1,6 +1,6 @@
 # RoleProof Django
 
-An AI-assisted synthetic request desk: React/TypeScript frontend, Django HTTP API and a real isolated PostgreSQL store accessed through a scoped RPC. This folder is a separate mode. Existing RoleProof applications are unchanged.
+An AI-assisted synthetic request desk: React/TypeScript frontend, Django HTTP API and a real isolated PostgreSQL store accessed through a scoped RPC. The Django HTTP application is a separate mode. Its shared demo database has a bounded workspace-cap recovery described in `HOSTED_VERIFY.md`; existing records and permissions were preserved.
 
 The Django layer implements URL routing, JSON request handling, middleware, response headers, cookie handling and static responses. It calls PostgreSQL directly over the database provider's HTTPS RPC. It does **not** proxy requests through the Flask or Node modes and does **not** use Django ORM, Django models, migrations or Django's user authentication system.
 
@@ -16,13 +16,16 @@ The Django layer implements URL routing, JSON request handling, middleware, resp
 
 This is substantial AI-assisted portfolio implementation, debugging and testing, not independent authorship, a candidate assessment, unaided coding ability or production customer experience. Do not enter private or customer information. Cookie-isolated demo workspaces are not a customer authentication service. Free-tier hosting and database limits apply.
 
-## Verification as of 22 November 2026
+## Verification as of 23 November 2026
 
-- 15 Django integration tests passed against the actual local PostgreSQL engine in PGlite, including roundtrip persistence, workspace isolation, stale-version conflicts, cookie flags, validation, error redaction, origin checks, CSV safety and static response security.
-- Five separate browser flows passed when serving this Django app locally while calling the **real remote PostgreSQL database**: create/update/reload/search/filter; no horizontal overflow at 320/390/1280 pixels; keyboard focus and Escape; HTML-like text; busy-save behavior.
-- Desktop and mobile screenshots from that browser run were visually inspected.
+Live demo: https://roleproof-django.vercel.app/
 
-These are not yet a public-host acceptance claim. Public-host results, if completed, are recorded separately in `HOSTED_VERIFY.md`.
+- 15 Django integration tests passed against the actual local PostgreSQL engine in PGlite, including persistence, workspace isolation, stale versions, cookie flags, validation, origin checks, CSV safety and error handling.
+- A separate PostgreSQL migration regression reproduced the old 100-workspace cap, preserved every existing record and permission while changing only the cap, recovered fresh workspaces, enforced the new 500-workspace cap and rejected a repeated migration safely.
+- Five browser flows passed against the public Django deployment and real remote database: create/update/reload/search/filter; no horizontal overflow at 320/390/1280 pixels; keyboard focus and Escape; inert HTML-like text; busy-save behavior.
+- Hosted desktop and mobile screenshots were visually inspected.
+
+The initial hosted run exposed the shared store's full 100-workspace cap. It was not counted as a pass. A cap-only recovery in the existing free project preserved all 100 workspaces and 531 tickets and was followed by successful fresh-workspace checks across the Django, original, Python and Next demos. See `HOSTED_VERIFY.md` for scope and limitations.
 
 ## Run
 
@@ -50,6 +53,7 @@ npm run build
 cd ..
 npm install
 ROLEPROOF_LOCAL=1 python test_django.py
+node test_capacity.mjs
 npx playwright install chromium
 npx playwright test
 ```
